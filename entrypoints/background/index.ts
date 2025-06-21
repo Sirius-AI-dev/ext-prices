@@ -170,7 +170,11 @@ export default defineBackground(() => {
             if (!queueController.currentItem) return;
 
             // Combine the received payload with the current queue item's ID.
-            const data = { ...message.payload, id: queueController.currentItem?.id };
+            const data = { 
+              ...message.payload, 
+              id: queueController.currentItem?.id, 
+              xpath: queueController.currentItem?.xpath!
+            };
             // Update tasks with the parsed data.
             await updateTasks(data);
           } catch (error) {

@@ -26,7 +26,7 @@ interface UpdateTasksProps {
 export const updateTasks = async (task_data: UpdateTasksProps) => {
 
   try {
-    if (task_data.xpath) {
+    if (task_data.xpath!) {
 
       // 1. Parse the HTML string into a Document object
       const parser = new DOMParser();

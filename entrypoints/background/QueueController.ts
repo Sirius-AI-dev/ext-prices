@@ -2,6 +2,16 @@
 interface QueueObject {
   id: string;
   // A unique identifier for the item in the queue.
+  period?: number; // in seconds
+  // The period (in seconds) for the task to be performed. 0 = don't track repeatedly
+  url?: string;
+  // The URL associated with the task
+  xpath?: string;
+  // xpath expression to required block in the HTML content
+  updateIn?: number;
+  // Optional property indicating time until the next update (in seconds)
+  data?: TaskData;
+  // Optional json object with details on the task
 }
 
 // Controller class to manage a queue of tasks or items.

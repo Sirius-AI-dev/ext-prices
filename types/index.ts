@@ -38,14 +38,16 @@ export interface TaskData {
 export interface Task {
   id: string;
   // A unique identifier for the task. Could contain digits, latin letters and "_"
-  period: number; // in seconds
+  period?: number; // in seconds
   // The period (in seconds) for the task to be performed. 0 = don't track repeatedly
-  url: string;
-  // The URL associated with the task.
+  url?: string;
+  // The URL associated with the task
+  xpath?: string;
+  // xpath expression to required block in the HTML content
   updateIn?: number;
-  // Optional property indicating time until the next update (in seconds).
+  // Optional property indicating time until the next update (in seconds)
   data?: TaskData;
-  // Optional json object with details on the task.
+  // Optional json object with details on the task
 }
 
 // Define the interface for Locale, essentially a key-value pair for localization strings.
