@@ -28,12 +28,7 @@ export const handleNewTasks = async (newTasks: Task[]) => {
         // Logical block: If the period has changed, update the local task's period.
         localTask.period = newTask.period;
       }
-      // Logical block: Check if the "data" object of the local task is different from the new task.
-      if (JSON.stringify(localTask.data) !== JSON.stringify(newTask.data)) {
-        // The content of the objects is different
-        localTask.data = { ...newTask.data };
-      }
-
+      
       // Add the (potentially updated) local task to the list of changed tasks.
       changedTasks.push(localTask);
     } else {
