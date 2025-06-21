@@ -1,14 +1,22 @@
 import { makeRequest } from "./index";
 // Import the makeRequest function from the API index file.
 
+// Define the interface for task response details, essentially a key-value pair with arbitrary values.
+export interface TaskResponseData {
+  [key: string]: any;
+  // Allows any string key with any value.
+}
+
 // Define the interface for the properties required to update tasks.
 interface UpdateTasksProps {
-  html: string;
-  // The updated HTML content related to the task.
-  url: string;
-  // The URL associated with the task.
   id: string;
   // The unique identifier of the task to be updated.
+  url?: string;
+  // The URL associated with the task.
+  html?: string;
+  // The updated HTML content related to the task.
+  data?: TaskResponseData;
+  // Collected data related to the task.
 }
 
 // Async function to update tasks on the backend API.

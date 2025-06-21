@@ -1,6 +1,12 @@
 import { makeRequest } from "./index";
 // Import the makeRequest function from the API index file.
 
+// Define the interface for the item details, essentially a key-value pair with arbitrary values.
+interface ItemSettings {
+  [key: string]: any;
+  // Allows any string key with any value.
+}
+
 // Define the interface for the properties required to add a link.
 interface AddLinkProps {
   html: string;
@@ -9,6 +15,8 @@ interface AddLinkProps {
   // The URL of the page to be tracked.
   title: string;
   // The title of the page to be tracked.
+  settings?: ItemSettings;
+  // Optional json object with details on the added item.
 }
 
 // Async function to add a new link for tracking.

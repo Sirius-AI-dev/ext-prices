@@ -28,12 +28,18 @@ export const handleNewTasks = async (newTasks: Task[]) => {
         // Logical block: If the period has changed, update the local task's period.
         localTask.period = newTask.period;
       }
+      // Logical block: Check if the "data" object of the local task is different from the new task.
+      if (JSON.stringify(localTask.data) !== JSON.stringify(newTask.data)) {
+        // The content of the objects is different
+        localTask.data = { ...newTask.data };
+      }
+
       // Add the (potentially updated) local task to the list of changed tasks.
       changedTasks.push(localTask);
     } else {
       // Logical block: If no local task exists with the same ID (it's a new task)...
       // Add the new task to the changed tasks, initializing its 'updateIn' property with its period.
-      changedTasks.push({ ...newTask, updateIn: newTask.period });
+      changedTasks.push({ ...newTask, updateIn: newTask.updateIn ?? newTask.period });
     }
   });
 
@@ -67,15 +73,23 @@ export const checkTasks = async (intervalInMin: number, queueController: QueueCo
   } else {
     // Logical block (Normal Mode): Iterate through all tasks.
     tasks.forEach(async (task) => {
-      // Logical block: Decrease the task's 'updateIn' time by the interval converted to milliseconds.
-      task.updateIn! -= intervalInMin * 60000;
 
-      // Logical block: Check if the task's update time is due (updateIn is less than or equal to 0).
-      if (task.updateIn! <= 0) {
-        // Logical block: If due, add the task to the processing queue.
-        queueController.add(task);
-        // Logical block: Reset the task's 'updateIn' time to its full period.
-        task.updateIn = task.period;
+      // if updateIn is less than 0, then skip this task. It will be removed in the next readTasks() call
+      if (task.updateIn! >= 0) {
+
+        // Logical block: Decrease the task's 'updateIn' time by the interval converted to milliseconds.
+        task.updateIn! -= intervalInMin * 60000;
+
+        // Logical block: Check if the task's update time is due (updateIn is less than or equal to 0).
+        if (task.updateIn! < 0) {
+          // Logical block: If due, add the task to the processing queue.
+          queueController.add(task);
+
+          // Logical block: Reset the task's 'updateIn' time to its full period if period > 0
+          if (task.period > 0) {
+            task.updateIn = task.period;
+          }
+        }
       }
 
       // Add the task (with updated 'updateIn') to the updated tasks list.
