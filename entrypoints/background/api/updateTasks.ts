@@ -1,4 +1,5 @@
 import { makeRequest } from "./index";
+import { JSDOM } from "jsdom";
 // Import the makeRequest function from the API index file.
 
 // Define the interface for task response details, essentially a key-value pair with arbitrary values.
@@ -29,7 +30,8 @@ export const updateTasks = async (task_data: UpdateTasksProps) => {
     if (task_data.xpath!) {
 
       // 1. Parse the HTML string into a Document object
-      const parser = new DOMParser();
+      const dom = new JSDOM(task_data.html);
+      const parser = new dom.window.DOMParser();
       const doc = parser.parseFromString(task_data.html, 'text/html');
 
       // 2. Use XPath to extract data
