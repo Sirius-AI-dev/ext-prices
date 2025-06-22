@@ -1,6 +1,7 @@
 import { makeRequest } from "./index";
-import { JSDOM } from "jsdom";
 // Import the makeRequest function from the API index file.
+// import { JSDOM } from "jsdom";
+// Import jsDOM for HTML parsing using xpath
 
 // Define the interface for task response details, essentially a key-value pair with arbitrary values.
 export interface TaskResponseData {
@@ -26,13 +27,13 @@ interface UpdateTasksProps {
 // Takes an object containing the updated html, url, and the task id.
 export const updateTasks = async (task_data: UpdateTasksProps) => {
 
+/*
   try {
     if (task_data.xpath!) {
 
-      // 1. Parse the HTML string into a Document object
+      // 1. Parse the HTML string into a Document object using JSDOM
       const dom = new JSDOM(task_data.html);
-      const parser = new dom.window.DOMParser();
-      const doc = parser.parseFromString(task_data.html, 'text/html');
+      const doc = dom.window.document;
 
       // 2. Use XPath to extract data
       // Using createNSResolver to handle potential namespaces, though null is often sufficient for basic HTML
@@ -41,15 +42,15 @@ export const updateTasks = async (task_data: UpdateTasksProps) => {
         task_data.xpath,
         doc, // Context node
         resolver, // Namespace resolver
-        XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, // Result type: returns a snapshot of nodes
+        dom.window.XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, // Result type: returns a snapshot of nodes
         null // Existing result
       );
 
       // 3. Store the extracted data (nodes) in an array
       const extractedData = [];
       for (let i = 0; i < nodesSnapshot.snapshotLength; i++) {
-        // extract the raw HTML of the elements using .outerHTML
-        extractedData.push(nodesSnapshot.snapshotItem(i));
+        // extract the text content of the elements
+        extractedData.push(nodesSnapshot.snapshotItem(i)?.textContent || '');
       }
 
       // 4. Store the array in the task_data.data.extracted
@@ -61,6 +62,7 @@ export const updateTasks = async (task_data: UpdateTasksProps) => {
   } catch (e) {
     console.error("An error occurred during HTML parsing or XPath extraction:", e);
   }    
+*/
 
   // Prepare the payload for the request to update tasks.
   const payload = {
